@@ -59,11 +59,10 @@ callback = TrainAndLoggingCallback(check_freq=5000, save_path=CHECKPOINT_DIR)
 model = PPO.load('./train/best_model_1.zip')
 
 #train model
-#model.learn(total_timesteps=1000000, callback=callback)
+model.learn(total_timesteps=10000000, callback=callback)
 
 
 #run model
-
 state = env.reset()
 while True:
     action, _state = model.predict(state)
