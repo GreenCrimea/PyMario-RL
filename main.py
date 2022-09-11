@@ -47,12 +47,27 @@ class TrainAndLoggingCallback(BaseCallback):
 
         return True
 
-callback = TrainAndLoggingCallback(check_freq=10000, save_path=CHECKPOINT_DIR)
+callback = TrainAndLoggingCallback(check_freq=5000, save_path=CHECKPOINT_DIR)
 
 
 #IMPLEMENT RL MODEL
-model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, learning_rate=0.000001, n_steps=512)
 
-model.learn(total_timesteps=1000000, callback=callback)
+#new model
+#model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, learning_rate=0.000001, n_steps=512)
+
+#load model
+model = PPO.load('./train/best_model_1.zip')
+
+#train model
+#model.learn(total_timesteps=1000000, callback=callback)
+
+
+#run model
+
+state = env.reset()
+while True:
+    action, _state = model.predict(state)
+    state, reward, done, info = env.step(action)
+    env.render()
 
 
