@@ -11,6 +11,7 @@ from stable_baselines3.common.callbacks import BaseCallback
 CHECKPOINT_DIR = './train/'
 LOG_DIR = './logs/'
 
+MODEL_NUM = 1
 
 #PREPROCESS ENV
 #setup env
@@ -41,7 +42,7 @@ class TrainAndLoggingCallback(BaseCallback):
 
     def _on_step(self):
         if self.n_calls % self.check_freq == 0:
-            model_path = os.path.join(self.save_path, 'best_model')
+            model_path = os.path.join(self.save_path, 'best_model_{}'.format(MODEL_NUM))
             self.model.save(model_path)
 
         return True
@@ -50,3 +51,8 @@ callback = TrainAndLoggingCallback(check_freq=10000, save_path=CHECKPOINT_DIR)
 
 
 #IMPLEMENT RL MODEL
+model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, learning_rate=0.000001, n_steps=512)
+
+model.learn(total_timesteps=1000000, callback=callback)
+
+
