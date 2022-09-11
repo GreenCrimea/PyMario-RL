@@ -53,10 +53,10 @@ callback = TrainAndLoggingCallback(check_freq=5000, save_path=CHECKPOINT_DIR)
 #IMPLEMENT RL MODEL
 
 #new model
-#model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, learning_rate=0.000001, n_steps=512)
+model = PPO('CnnPolicy', env, verbose=1, tensorboard_log=LOG_DIR, learning_rate=0.0000005, n_steps=512)
 
 #load model
-model = PPO.load('./train/best_model_1.zip')
+#model = PPO.load('./train/best_model_1.zip')
 
 #train model
 model.learn(total_timesteps=10000000, callback=callback)
